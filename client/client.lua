@@ -503,3 +503,27 @@ AddEventHandler('esx_skin:openSaveableMenu', function(submitCb, cancelCb)
 		end
 	end, config)
 end)
+
+RegisterNetEvent('esx_skin:openRegisterMenu')
+AddEventHandler('esx_skin:openRegisterMenu', function(submitCb, cancelCb)
+	local config = {
+        headBlend = true,
+        faceFeatures = true,
+        headOverlays = true,
+        components = true,
+        props = true,
+        tattoos = true
+      }
+	exports['fivem-appearance']:startPlayerCustomization(function (appearance)
+		if (appearance) then
+			TriggerServerEvent('fivem-appearance:save', appearance)
+			ESX.SetPlayerData('ped', PlayerPedId())
+			TriggerEvent('esx:restoreLoadout')
+			if submitCb then submitCb() end
+		else
+			if cancelCb then cancelCb() end
+			ESX.SetPlayerData('ped', PlayerPedId())
+			TriggerEvent('esx:restoreLoadout')
+		end
+	end, config)
+end)
