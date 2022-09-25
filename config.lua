@@ -9,57 +9,57 @@ Config.Distance = 5.0
 Config.Translation = {
 	--| Blips
 	Blip = {
-		clothingShop = 'Clothing Shop',
-		barberShop = 'Barber Shop',
-		tattooShop = 'Tattoo Shop'
+		clothingShop = 'Magasin de vêtements',
+		barberShop = 'Barbier',
+		tattooShop = 'Salon de tatouage'
 	},
 
 	--| Menus
 	Menu = {
-		clothingMenu = '[E] - Change Clothing',
-		barberMenu = '[E] - Change Hair/Face',
-		tattooMenu = '[E] - Change Tattoos'
+		clothingMenu = '[E] - Changer Tenue',
+		barberMenu = '[E] - Changer Cheveux/Visage',
+		tattooMenu = '[E] - Changer Tatouages'
 	},
 
 	--| ClothingShop
 	Shop = {
 		masterTitle = 'Shop Menu',
 
-		clothingMenuTitle = 'Change Clothing',
-		clothingMenuDesc = 'Browse available clothing',
+		clothingMenuTitle = 'Changer Tenue',
+		clothingMenuDesc = 'Parcourir les vêtements disponibles',
 
-		pickNewOutfitTitle = 'Browse Outfits',
-		pickNewOutfitDesc = 'Browse saved outfits',
+		pickNewOutfitTitle = 'Parcourir les tenues',
+		pickNewOutfitDesc = 'Parcourir les tenues sauvegardées',
 
-		saveOutfitTitle = 'Save Outfit',
-		saveOutfitDesc = 'Save current outfit',
+		saveOutfitTitle = 'Sauvegarder tenue',
+		saveOutfitDesc = 'Sauvegarder tenue actuelle',
 
-		deleteOutfitMenuTitle = 'Delete Outfits',
-		deleteOutfitMenuDesc = 'Browse saved outfits'
+		deleteOutfitMenuTitle = 'Supprimer Tenues',
+		deleteOutfitMenuDesc = 'Parcourir les tenues sauvegardées'
 	},
 
 	--| Wardrobe
 	Wardrobe = {
-		masterTitle = 'Wardrobe Menu',
+		masterTitle = 'Penderie',
 
-		menuTitle = 'No Saved Outfits!',
-		menuDesc = 'Go to the clothing Shop'
+		menuTitle = 'Pas de tenues sauvegardées!',
+		menuDesc = 'Rendez-vous dans un magasin de vêtements'
 	},
 
 	--| New Outfit
 	NewOutfit = {
-		masterTitle = 'Saved Outfits',
+		masterTitle = 'Tenues Sauvegardées',
 
-		title = '< Go Back',
-		desc = 'No Saved Outfits!'
+		title = '< Retour',
+		desc = 'Pas de tenues sauvegardées!'
 	},
 
 	--| Delete Outfit
 	DeleteOutfit = {
 		masterTitle = 'Delete Outfits',
 
-		title = '< Go Back',
-		desc = 'No Saved Outfits!'
+		title = '< Retour',
+		desc = 'Pas de tenues tenues sauvegardées!'
 	},
 }
 
