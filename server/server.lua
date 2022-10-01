@@ -1,5 +1,5 @@
 -----------------For support, scripts, and more----------------
------------------ https://discord.gg/XJFNyMy3Bv ---------------
+--------------- https://discord.gg/wasabiscripts  -------------
 ---------------------------------------------------------------
 
 ESX = exports["es_extended"]:getSharedObject()
@@ -107,6 +107,24 @@ ESX.RegisterServerCallback('esx_skin:getPlayerSkin', function(source, cb)
 		appearance.sex = getGender(appearance.model)
 		cb(appearance, jobSkin)
 	end)
+end)
+
+ESX.RegisterServerCallback('fivem-appearance:payfee', function(soruce, cb, param)
+    local xPlayer = ESX.GetPlayerFromId(soruce)
+    local money = xPlayer.getMoney()
+
+    if param then
+        local cost = Config.Price[param]
+        if money >= cost then
+            if cost > 0 then
+                xPlayer.removeMoney(cost)
+            end
+            cb(true)
+        else
+            xPlayer.showNotification("You need $"..cost.." money in your pocket.",5000,'success')
+            cb(false)
+        end
+    end
 end)
 
 ESX.RegisterCommand('skin', 'admin', function(xPlayer, args, showError)

@@ -1,5 +1,5 @@
 -----------------For support, scripts, and more----------------
------------------ https://discord.gg/XJFNyMy3Bv ---------------
+--------------- https://discord.gg/wasabiscripts  -------------
 ---------------------------------------------------------------
 
 local savedOutfits = {}
@@ -136,12 +136,18 @@ CreateThread(function()
     end
 end)
 
+
 CreateThread(function()
     while true do
         local sleep = 1500
         if CurrentAction ~= nil then
             sleep = 0
             if IsControlPressed(1, 38) then
+--get current model before modification so we can revert if plyaer doesnot have money
+                local playerPed = PlayerPedId()
+		        local currentPedModel = exports['fivem-appearance']:getPedModel(playerPed)
+                local currentappearance = exports['fivem-appearance']:getPedAppearance(playerPed)
+                
                 Wait(500)
                 if CurrentAction == 'clothingMenu' then
                     TriggerEvent('fivem-appearance:clothingShop')
@@ -157,9 +163,20 @@ CreateThread(function()
                     }
                     exports['fivem-appearance']:startPlayerCustomization(function (appearance)
 						if (appearance) then
-							TriggerServerEvent('fivem-appearance:save', appearance)
-                            TriggerEvent('esx:restoreLoadout')
-							ESX.SetPlayerData('ped', PlayerPedId())
+--price check and detect using callback                          
+                            ESX.TriggerServerCallback('fivem-appearance:payfee', function(success)
+                                if success then
+                                    TriggerServerEvent('fivem-appearance:save', appearance)
+                                    TriggerEvent('esx:restoreLoadout')
+							        ESX.SetPlayerData('ped', PlayerPedId())
+                                else
+--revert character which we already save before modification                                 
+                                    exports['fivem-appearance']:setPlayerAppearance(currentappearance)
+                                    TriggerServerEvent('fivem-appearance:save',currentappearance)
+                                    TriggerEvent('esx:restoreLoadout')
+							        ESX.SetPlayerData('ped', PlayerPedId())
+                                end   
+                            end, "barbershop")	
 						else
                             TriggerEvent('esx:restoreLoadout')
 							ESX.SetPlayerData('ped', PlayerPedId())
@@ -177,9 +194,19 @@ CreateThread(function()
 					}
                     exports['fivem-appearance']:startPlayerCustomization(function (appearance)
 						if (appearance) then
-							TriggerServerEvent('fivem-appearance:save', appearance)
-							ESX.SetPlayerData('ped', PlayerPedId())
-                            TriggerEvent('esx:restoreLoadout')
+                            ESX.TriggerServerCallback('fivem-appearance:payfee', function(success)
+                                if success then
+                                    TriggerServerEvent('fivem-appearance:save', appearance)
+                                    TriggerEvent('esx:restoreLoadout')
+							--        ESX.SetPlayerData('ped', PlayerPedId())
+                                else
+                                   
+                                    exports['fivem-appearance']:setPlayerAppearance(currentappearance)
+                                    TriggerServerEvent('fivem-appearance:save',currentappearance)
+                                    TriggerEvent('esx:restoreLoadout')
+							--        ESX.SetPlayerData('ped', PlayerPedId())
+                                end   
+                            end, "tattooshop")
 						else
 							ESX.SetPlayerData('ped', PlayerPedId())
                             TriggerEvent('esx:restoreLoadout')
@@ -225,8 +252,12 @@ RegisterNetEvent('fivem-appearance:clothingShop', function()
 	})
 	lib.showContext('clothing_menu')
 end)
-
 RegisterNetEvent('fivem-appearance:clothingMenu', function()
+    local playerPed = PlayerPedId()
+    local currentPedModel = exports['fivem-appearance']:getPedModel(playerPed)
+    local currentappearance = exports['fivem-appearance']:getPedAppearance(playerPed)
+
+
 	local config = {
 		ped = false,
 		headBlend = false,
@@ -237,10 +268,20 @@ RegisterNetEvent('fivem-appearance:clothingMenu', function()
 	}
 	exports['fivem-appearance']:startPlayerCustomization(function (appearance)
 		if (appearance) then
-			TriggerServerEvent('fivem-appearance:save', appearance)
-			ESX.SetPlayerData('ped', PlayerPedId()) -- Fix for esx legacy
-            TriggerEvent('esx:restoreLoadout')
-		else
+			ESX.TriggerServerCallback('fivem-appearance:payfee', function(success)
+                if success then
+                    TriggerServerEvent('fivem-appearance:save', appearance)
+                    TriggerEvent('esx:restoreLoadout')
+                    ESX.SetPlayerData('ped', PlayerPedId())
+                else
+                
+                    exports['fivem-appearance']:setPlayerAppearance(currentappearance)
+                    TriggerServerEvent('fivem-appearance:save',currentappearance)
+                    TriggerEvent('esx:restoreLoadout')
+                    ESX.SetPlayerData('ped', PlayerPedId())
+                end   
+            end, "clotheshop")
+        else
 			ESX.SetPlayerData('ped', PlayerPedId()) -- Fix for esx legacy
             TriggerEvent('esx:restoreLoadout')
 		end
@@ -423,6 +464,16 @@ RegisterCommand('propfix', function()
             DeleteObject(v)
             DeleteEntity(v)
         end
+    end
+end)
+
+-- cd_multicharacter compatibility
+RegisterNetEvent('skinchanger:loadSkin2')
+AddEventHandler('skinchanger:loadSkin2', function(ped, skin)
+    if not skin.model then skin.model = 'mp_m_freemode_01' end
+    	exports['fivem-appearance']:setPedAppearance(ped, skin)
+    if cb ~= nil then
+        cb()
     end
 end)
 
