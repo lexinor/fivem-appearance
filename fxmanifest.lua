@@ -1,10 +1,14 @@
+-----------------For support, scripts, and more----------------
+--------------- https://discord.gg/wasabiscripts  -------------
+---------------------------------------------------------------
+
 fx_version "cerulean"
 game "gta5"
 lua54 'yes'
 
 author 'wasabirobby'
 description 'Wasabi fork of fivem-appearance'
-version '1.1.2'
+version '1.2.0'
 
 files {
   'web/dist/index.html',
@@ -21,17 +25,18 @@ client_scripts {
 }
 
 server_scripts {
-  '@mysql-async/lib/MySQL.lua',
+  '@oxmysql/lib/MySQL.lua',
   'server/*.lua'
 }
 
 shared_scripts {
   '@ox_lib/init.lua',
-  'config.lua'
+  'configuration/*.lua'
 }
 
 dependencies {
   'es_extended',
+  'oxmysql',
   'ox_lib'
 }
 
