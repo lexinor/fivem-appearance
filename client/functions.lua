@@ -28,8 +28,8 @@ createBlip = function(coords, sprite, color, text, scale)
 	SetBlipScale(blip, scale)
 	SetBlipColour(blip, color)
 	SetBlipAsShortRange(blip, true)
-	BeginTextCommandSetBlipName(text)
-	EndTextCommandSetBlipName(blip)
+	BeginTextCommandSetBlipName(text.blip)
+	EndTextCommandSetBlipName(text.blip)
 end
 
 consolidateShops = function()
@@ -74,7 +74,8 @@ openShop = function(store, price)
                 faceFeatures = false,
                 headOverlays = false,
                 components = true,
-                props = true
+                props = true,
+                tattoos = false
             }
         elseif store == 'barber' then
             config = {
